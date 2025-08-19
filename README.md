@@ -1,2 +1,6 @@
 # cloudinsight-api-gateway-rw
-CloudInsight project repository - cloudinsight-api-gateway-rw (backend)
+
+This is the cloudinsight-api-gateway-rw infrastructure repository.
+
+## Description
+Infrastructure component for the CloudInsight platform.
