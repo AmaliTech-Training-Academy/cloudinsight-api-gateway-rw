@@ -1,0 +1,11 @@
+{
+  "encrypted_at": "2025-09-05T09:25:43Z",
+  "developer": "Developer: ingabireol <ingabire069@gmail.com>",
+  "original_file": ".env",
+  "original_hash": "5175c8ae4ff1016e2d380836b7e9968f300451ac1d793313693bf86d8a81e776",
+  "encryption_method": "RSA-4096 + AES-256",
+  "files": {
+    "data": "encrypted-env-vars.enc",
+    "key": "encrypted-aes-key.enc"
+  }
+}
