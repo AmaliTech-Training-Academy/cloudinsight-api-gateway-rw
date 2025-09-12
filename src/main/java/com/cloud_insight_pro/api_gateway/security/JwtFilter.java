@@ -21,8 +21,8 @@ import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
-@Slf4j
 @Component
+@Slf4j
 public class JwtFilter implements GlobalFilter, Ordered {
   @Value("${JWT_SECRET}")
   private String jwtSecret;
@@ -30,9 +30,9 @@ public class JwtFilter implements GlobalFilter, Ordered {
   public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
     HttpCookie tokenCookie = exchange.getRequest().getCookies().getFirst("token");
+    log.info("All Cookies extracted: {}", exchange.getRequest().getCookies().toString());
 
-    log.info("JWT token found in cookie: {}", exchange.getRequest().getCookies());
-    log.info("JWT token found in cookie: {}", jwt);
+    log.info("JWT token found in cookie: {}", tokenCookie);
 
     if (tokenCookie != null) {
       String jwt = tokenCookie.getValue();
@@ -50,7 +50,8 @@ public class JwtFilter implements GlobalFilter, Ordered {
         String fullName = claims.get("fullName", String.class);
         String email = claims.get("email", String.class);
 
-        log.info("JWT validated. UserId: {}, Role: {}, Email: {}, FullName: {}", userId, role, email, fullName);
+        log.info("JWT validated. UserId: {}, Role: {}, Email: {}, FullName: {}",
+            userId, role, email, fullName);
 
         ServerHttpRequest mutatedRequest = exchange.getRequest().mutate()
             .header("X-User-Id", String.valueOf(userId))
