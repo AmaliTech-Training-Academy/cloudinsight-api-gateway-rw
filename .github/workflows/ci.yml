@@ -141,7 +141,9 @@ jobs:
           # Cleanup
           rm -f /tmp/new.json
           echo "🔐 Environment variables deployed to AWS Secrets Manager: $SECRET_NAME"
-          echo "🚫 Database secrets (DB_PASSWORD, DB_URL, DB_USERNAME) excluded from deployment"      - name: Login to Amazon ECR
+          echo "🚫 Database secrets (DB_PASSWORD, DB_URL, DB_USERNAME) excluded from deployment"
+
+      - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Calculate next semantic version
