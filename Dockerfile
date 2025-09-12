@@ -22,8 +22,13 @@ LABEL maintainer="AmaliTech Training Academy" \
     description="Cloud Insight Pro Project" \
     version="1.0"
 
-# Install jq for JSON processing
-RUN apt-get update && apt-get install -y jq && apt-get clean
+# Install jq for JSON processing and clean up apt cache
+RUN apt-get update && \
+    apt-get install -y jq && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    # Verify jq installation
+    jq --version
 
 # Set default environment variables (can be overridden)
 ENV SPRING_PROFILES_ACTIVE=production
