@@ -31,9 +31,12 @@ public class JwtFilter implements GlobalFilter, Ordered {
 
     HttpCookie tokenCookie = exchange.getRequest().getCookies().getFirst("token");
 
+    log.info("JWT token found in cookie: {}", exchange.getRequest().getCookies());
+    log.info("JWT token found in cookie: {}", jwt);
+
     if (tokenCookie != null) {
       String jwt = tokenCookie.getValue();
-      log.debug("JWT token found in cookie: {}", jwt);
+      log.info("JWT token found in cookie: {}", jwt);
 
       try {
         Claims claims = Jwts.parser()
