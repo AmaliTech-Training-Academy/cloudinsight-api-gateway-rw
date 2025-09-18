@@ -30,7 +30,7 @@ public class JwtFilter implements GlobalFilter, Ordered {
   public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
     HttpCookie tokenCookie = exchange.getRequest().getCookies().getFirst("token");
-    log.info("All Cookies extracted: {}", exchange.getRequest().getCookies().toString());
+    log.info("All Cookies extracted: {}", exchange.getRequest().getCookies());
 
     log.info("JWT token found in cookie: {}", tokenCookie);
 
@@ -64,15 +64,26 @@ public class JwtFilter implements GlobalFilter, Ordered {
 
       } catch (JwtException ex) {
         log.warn("Invalid JWT token: {}", ex.getMessage());
-        return chain.filter(exchange);
       }
     } else {
       log.debug("No JWT token found in cookies.");
     }
-    return chain.filter(exchange);
+    return chain.filter(getSanitizedAuthExchange(exchange));
   }
 
-  // Key encription
+  private ServerWebExchange getSanitizedAuthExchange(ServerWebExchange exchange) {
+    ServerHttpRequest mutatedRequest = exchange.getRequest().mutate()
+      .headers(h -> {
+        h.remove("X-User-Id");
+        h.remove("X-User-Role");
+        h.remove("X-User-Email");
+        h.remove("X-User-FullName");
+      })
+      .build();
+    return exchange.mutate().request(mutatedRequest).build();
+  }
+
+  // Key encryption
   private Key key() {
     log.debug("Decoding JWT secret for key generation.");
     return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
