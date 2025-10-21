@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Production-ready entrypoint script for api-gateway
+# Production-ready entrypoint script for api-gateway.
 ENV_JSON_FILE="/mnt/secrets/api-gateway-env.json"
 
 # List of environment variables to ignore (already hardcoded in deployment)
